@@ -42,17 +42,9 @@ class BaseBackend(object):
     @abstractmethod
     def request_backend_start_training_nlu(self, update_id, by, repository_authorization):
         pass
-    
-    @abstractmethod
-    def request_backend_get_entities_nlu(self, update_id, language, example_id, repository_authorization):
-        pass
 
     @abstractmethod
-    def request_backend_get_entities_label_nlu(self, update_id, language, example_id, repository_authorization):
-        pass
-
-    @abstractmethod
-    def request_backend_get_text_nlu(self, update_id, language, example_id, repository_authorization):
+    def request_backend_get_entities_and_labels_nlu(self, update_id, language, data, repository_authorization):
         pass
 
     @abstractmethod

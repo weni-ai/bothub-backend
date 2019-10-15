@@ -97,39 +97,18 @@ class BothubBackend(BaseBackend):
         ).json()
         return update
 
-    def request_backend_get_entities_nlu(self, update_id, language, example_id, repository_authorization):
+    def request_backend_get_entities_and_labels_nlu(self, update_id, language, data, repository_authorization):
         update = requests.get(
-            '{}/v2/repository/nlp/authorization/train/get_entities/?update_id={}&language={}&example_id={}'.format(
+            '{}/v2/repository/nlp/authorization/train/get_entities_and_labels/?update_id={}&language={}'.format(
                 self.backend,
                 update_id,
-                language,
-                example_id
+                language
             ),
-            headers={'Authorization': 'Bearer {}'.format(repository_authorization)}
-        ).json()
-        return update
-
-    def request_backend_get_entities_label_nlu(self, update_id, language, example_id, repository_authorization):
-        update = requests.get(
-            '{}/v2/repository/nlp/authorization/train/get_entities_label/?update_id={}&language={}&example_id={}'.format(
-                self.backend,
-                update_id,
-                language,
-                example_id
-            ),
-            headers={'Authorization': 'Bearer {}'.format(repository_authorization)}
-        ).json()
-        return update
-
-    def request_backend_get_text_nlu(self, update_id, language, example_id, repository_authorization):
-        update = requests.get(
-            '{}/v2/repository/nlp/authorization/train/get_text/?update_id={}&language={}&example_id={}'.format(
-                self.backend,
-                update_id,
-                language,
-                example_id
-            ),
-            headers={'Authorization': 'Bearer {}'.format(repository_authorization)}
+            data=data,
+            headers={
+                'Authorization': 'Bearer {}'.format(repository_authorization),
+                'Content-Type': 'application/json'
+            }
         ).json()
         return update
 
