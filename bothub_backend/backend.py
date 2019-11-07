@@ -20,11 +20,15 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_create_evaluate_results_intent(self, data, repository_authorization):
+    def request_backend_create_evaluate_results_intent(
+        self, data, repository_authorization
+    ):
         pass
 
     @abstractmethod
-    def request_backend_create_evaluate_results_score(self, data, repository_authorization):
+    def request_backend_create_evaluate_results_score(
+        self, data, repository_authorization
+    ):
         pass
 
     @abstractmethod
@@ -40,11 +44,23 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_start_training_nlu(self, update_id, by, repository_authorization):
+    def request_backend_start_training_nlu(
+        self, update_id, by, repository_authorization
+    ):
         pass
 
     @abstractmethod
-    def request_backend_get_entities_and_labels_nlu(self, update_id, language, data, repository_authorization):
+    def request_backend_get_entities_and_labels_nlu(
+        self, update_id, language, data, repository_authorization
+    ):
+        pass
+
+    @abstractmethod
+    def request_backend_get_entities(self, update_id, repository_authorization):
+        pass
+
+    @abstractmethod
+    def request_backend_get_entities_labels(self, update_id, repository_authorization):
         pass
 
     @abstractmethod
@@ -52,7 +68,9 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_traininglog_nlu(self, update_id, training_log, repository_authorization):
+    def request_backend_traininglog_nlu(
+        self, update_id, training_log, repository_authorization
+    ):
         pass
 
     @abstractmethod
@@ -60,9 +78,13 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def send_training_backend_nlu_persistor(self, update_id, botdata, repository_authorization):
+    def send_training_backend_nlu_persistor(
+        self, update_id, botdata, repository_authorization
+    ):
         pass
 
     @abstractmethod
-    def request_backend_repository_entity_nlu_parse(self, update_id, repository_authorization, entity):
+    def request_backend_repository_entity_nlu_parse(
+        self, update_id, repository_authorization, entity
+    ):
         pass
