@@ -83,26 +83,26 @@ class BothubBackend(BaseBackend):
         return langs
 
     def request_backend_parse(
-        self, router, repository_authorization, language=None, update_id=None
+        self, router, repository_authorization, language=None, repository_version=None
     ):
         print(f"Starting connection request_backend_parse()")
         time_start = time.time()
-        if update_id:
-            update = requests.get(
-                "{}/v2/repository/nlp/authorization/{}/{}/?language={}&update_id={}".format(
-                    self.backend, router, repository_authorization, language, update_id
+        if repository_version:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/{}/{}/?language={}&repository_version={}".format(
+                    self.backend, router, repository_authorization, language, repository_version
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
             ).json()
         else:
-            update = requests.get(
+            version = requests.get(
                 "{}/v2/repository/nlp/authorization/{}/{}/?language={}".format(
                     self.backend, router, repository_authorization, language
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
             ).json()
         print(f"End connection request_backend_parse() {str(time.time() - time_start)}")
-        return update
+        return version
 
     def request_backend_parse_nlu(self, update_id, repository_authorization):
         print(f"Starting connection request_backend_parse_nlu()")
