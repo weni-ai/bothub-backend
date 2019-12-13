@@ -136,13 +136,13 @@ class BothubBackend(BaseBackend):
         return update
 
     def request_backend_get_entities_and_labels_nlu(
-        self, update_id, language, data, repository_authorization
+        self, repository_version, language, data, repository_authorization
     ):
         print(f"Starting connection request_backend_get_entities_and_labels_nlu()")
         time_start = time.time()
         update = requests.get(
-            "{}/v2/repository/nlp/authorization/train/get_entities_and_labels/?update_id={}&language={}".format(
-                self.backend, update_id, language
+            "{}/v2/repository/nlp/authorization/train/get_entities_and_labels/?repository_version={}&language={}".format(
+                self.backend, repository_version, language
             ),
             data=data,
             headers={
@@ -185,7 +185,7 @@ class BothubBackend(BaseBackend):
         time_start = time.time()
         if not use_pagination:
             update = requests.get(
-                "{}/v2/repository/nlp/authorization/train/get_examples_labels/?update_id={}".format(
+                "{}/v2/repository/nlp/authorization/train/get_examples_labels/?repository_version={}".format(
                     self.backend, update_id
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
