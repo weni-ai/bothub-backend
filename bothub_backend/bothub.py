@@ -14,7 +14,7 @@ class BothubBackend(BaseBackend):
         print(f"Starting connection request_backend_start_evaluation()")
         time_start = time.time()
         update = requests.get(
-            "{}/v2/repository/nlp/authorization/evaluate/evaluations/?update_id={}".format(
+            "{}/v2/repository/nlp/authorization/evaluate/evaluations/?repository_version={}".format(
                 self.backend, update_id
             ),
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
@@ -127,7 +127,7 @@ class BothubBackend(BaseBackend):
             "{}/v2/repository/nlp/authorization/train/start_training/".format(
                 self.backend
             ),
-            data={"update_id": update_id, "by_user": by},
+            data={"repository_version": update_id, "by_user": by},
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
         ).json()
         print(
@@ -162,7 +162,7 @@ class BothubBackend(BaseBackend):
         time_start = time.time()
         if not use_pagination:
             update = requests.get(
-                "{}/v2/repository/nlp/authorization/train/get_examples/?update_id={}".format(
+                "{}/v2/repository/nlp/authorization/train/get_examples/?repository_version={}".format(
                     self.backend, update_id
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
@@ -205,7 +205,7 @@ class BothubBackend(BaseBackend):
         time_start = time.time()
         update = requests.post(
             "{}/v2/repository/nlp/authorization/train/train_fail/".format(self.backend),
-            data={"update_id": update_id},
+            data={"repository_version": update_id},
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
         ).json()
         print(
@@ -222,7 +222,7 @@ class BothubBackend(BaseBackend):
             "{}/v2/repository/nlp/authorization/train/training_log/".format(
                 self.backend
             ),
-            data={"update_id": update_id, "training_log": training_log},
+            data={"repository_version": update_id, "training_log": training_log},
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
         ).json()
         print(
@@ -268,7 +268,7 @@ class BothubBackend(BaseBackend):
         print(f"Starting connection request_backend_repository_entity_nlu_parse()")
         time_start = time.time()
         update = requests.get(
-            "{}/v2/repository/nlp/authorization/parse/repository_entity/?update_id={}&entity={}".format(
+            "{}/v2/repository/nlp/authorization/parse/repository_entity/?repository_version={}&entity={}".format(
                 self.backend, update_id, entity
             ),
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
