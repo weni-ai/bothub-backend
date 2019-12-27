@@ -90,7 +90,11 @@ class BothubBackend(BaseBackend):
         if repository_version:
             version = requests.get(
                 "{}/v2/repository/nlp/authorization/{}/{}/?language={}&repository_version={}".format(
-                    self.backend, router, repository_authorization, language, repository_version
+                    self.backend,
+                    router,
+                    repository_authorization,
+                    language,
+                    repository_version,
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
             ).json()
@@ -276,4 +280,15 @@ class BothubBackend(BaseBackend):
         print(
             f"End connection request_backend_repository_entity_nlu_parse() {str(time.time() - time_start)}"
         )
+        return update
+
+    def send_log_nlp_parse(self, data):
+        print(f"Starting connection send_log_nlp_parse()")
+        time_start = time.time()
+        update = requests.post(
+            "{}/v2/repository/nlp/log/".format(self.backend),
+            json=data,
+            headers={"Content-Type": "application/json",},
+        ).json()
+        print(f"End connection send_log_nlp_parse() {str(time.time() - time_start)}")
         return update

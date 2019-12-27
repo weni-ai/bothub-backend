@@ -36,7 +36,9 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_parse(self, router, repository_authorization, language=None, repository_version=None):
+    def request_backend_parse(
+        self, router, repository_authorization, language=None, repository_version=None
+    ):
         pass
 
     @abstractmethod
@@ -87,4 +89,8 @@ class BaseBackend(object):
     def request_backend_repository_entity_nlu_parse(
         self, update_id, repository_authorization, entity
     ):
+        pass
+
+    @abstractmethod
+    def send_log_nlp_parse(self, data):
         pass
