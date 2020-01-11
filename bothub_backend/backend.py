@@ -37,7 +37,25 @@ class BaseBackend(object):
 
     @abstractmethod
     def request_backend_parse(
-        self, router, repository_authorization, language=None, repository_version=None
+            self, repository_authorization, language=None, repository_version=None
+    ):
+        pass
+
+    @abstractmethod
+    def request_backend_evaluate(
+            self, repository_authorization, language=None, repository_version=None
+    ):
+        pass
+
+    @abstractmethod
+    def request_backend_train(
+            self, repository_authorization, language=None, repository_version=None
+    ):
+        pass
+
+    @abstractmethod
+    def request_backend_info(
+            self, repository_authorization, language=None, repository_version=None
     ):
         pass
 
