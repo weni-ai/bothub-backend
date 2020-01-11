@@ -83,15 +83,14 @@ class BothubBackend(BaseBackend):
         return langs
 
     def request_backend_parse(
-        self, router, repository_authorization, language=None, repository_version=None
+            self, repository_authorization, language=None, repository_version=None
     ):
         print(f"Starting connection request_backend_parse()")
         time_start = time.time()
         if repository_version:
             version = requests.get(
-                "{}/v2/repository/nlp/authorization/{}/{}/?language={}&repository_version={}".format(
+                "{}/v2/repository/nlp/authorization/parse/{}/?language={}&repository_version={}".format(
                     self.backend,
-                    router,
                     repository_authorization,
                     language,
                     repository_version,
@@ -100,8 +99,83 @@ class BothubBackend(BaseBackend):
             ).json()
         else:
             version = requests.get(
-                "{}/v2/repository/nlp/authorization/{}/{}/?language={}".format(
-                    self.backend, router, repository_authorization, language
+                "{}/v2/repository/nlp/authorization/parse/{}/?language={}".format(
+                    self.backend, repository_authorization, language
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        print(f"End connection request_backend_parse() {str(time.time() - time_start)}")
+        return version
+
+    def request_backend_evaluate(
+            self, repository_authorization, language=None, repository_version=None
+    ):
+        print(f"Starting connection request_backend_evaluate()")
+        time_start = time.time()
+        if repository_version:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/evaluate/{}/?language={}&repository_version={}".format(
+                    self.backend,
+                    repository_authorization,
+                    language,
+                    repository_version,
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        else:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/evaluate/{}/?language={}".format(
+                    self.backend, repository_authorization, language
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        print(f"End connection request_backend_evaluate() {str(time.time() - time_start)}")
+        return version
+
+    def request_backend_info(
+            self, repository_authorization, language=None, repository_version=None
+    ):
+        print(f"Starting connection request_backend_info()")
+        time_start = time.time()
+        if repository_version:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/info/{}/?language={}&repository_version={}".format(
+                    self.backend,
+                    repository_authorization,
+                    language,
+                    repository_version,
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        else:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/info/{}/?language={}".format(
+                    self.backend, repository_authorization, language
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        print(f"End connection request_backend_info() {str(time.time() - time_start)}")
+        return version
+
+    def request_backend_train(
+            self, repository_authorization, language=None, repository_version=None
+    ):
+        print(f"Starting connection request_backend_train()")
+        time_start = time.time()
+        if repository_version:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/train/{}/?language={}&repository_version={}".format(
+                    self.backend,
+                    repository_authorization,
+                    language,
+                    repository_version,
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        else:
+            version = requests.get(
+                "{}/v2/repository/nlp/authorization/train/{}/?language={}".format(
+                    self.backend, repository_authorization, language
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
             ).json()
