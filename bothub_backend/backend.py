@@ -37,25 +37,25 @@ class BaseBackend(object):
 
     @abstractmethod
     def request_backend_parse(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         pass
 
     @abstractmethod
     def request_backend_evaluate(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         pass
 
     @abstractmethod
     def request_backend_train(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         pass
 
     @abstractmethod
     def request_backend_info(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         pass
 
@@ -66,12 +66,6 @@ class BaseBackend(object):
     @abstractmethod
     def request_backend_start_training_nlu(
         self, update_id, by, repository_authorization
-    ):
-        pass
-
-    @abstractmethod
-    def request_backend_get_entities_and_labels_nlu(
-        self, update_id, language, data, repository_authorization
     ):
         pass
 
