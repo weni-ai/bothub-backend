@@ -83,7 +83,7 @@ class BothubBackend(BaseBackend):
         return langs
 
     def request_backend_parse(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         print(f"Starting connection request_backend_parse()")
         time_start = time.time()
@@ -108,7 +108,7 @@ class BothubBackend(BaseBackend):
         return version
 
     def request_backend_evaluate(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         print(f"Starting connection request_backend_evaluate()")
         time_start = time.time()
@@ -129,11 +129,13 @@ class BothubBackend(BaseBackend):
                 ),
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
             ).json()
-        print(f"End connection request_backend_evaluate() {str(time.time() - time_start)}")
+        print(
+            f"End connection request_backend_evaluate() {str(time.time() - time_start)}"
+        )
         return version
 
     def request_backend_info(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         print(f"Starting connection request_backend_info()")
         time_start = time.time()
@@ -158,7 +160,7 @@ class BothubBackend(BaseBackend):
         return version
 
     def request_backend_train(
-            self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, language=None, repository_version=None
     ):
         print(f"Starting connection request_backend_train()")
         time_start = time.time()
@@ -210,26 +212,6 @@ class BothubBackend(BaseBackend):
         ).json()
         print(
             f"End connection request_backend_start_training_nlu() {str(time.time() - time_start)}"
-        )
-        return update
-
-    def request_backend_get_entities_and_labels_nlu(
-        self, repository_version, language, data, repository_authorization
-    ):
-        print(f"Starting connection request_backend_get_entities_and_labels_nlu()")
-        time_start = time.time()
-        update = requests.get(
-            "{}/v2/repository/nlp/authorization/train/get_entities_and_labels/?repository_version={}&language={}".format(
-                self.backend, repository_version, language
-            ),
-            data=data,
-            headers={
-                "Authorization": "Bearer {}".format(repository_authorization),
-                "Content-Type": "application/json",
-            },
-        ).json()
-        print(
-            f"End connection request_backend_get_entities_and_labels_nlu() {str(time.time() - time_start)}"
         )
         return update
 
