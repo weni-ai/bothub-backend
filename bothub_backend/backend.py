@@ -88,12 +88,14 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_parse_nlu_persistor(self, update_id, repository_authorization):
+    def request_backend_parse_nlu_persistor(
+        self, update_id, repository_authorization, rasa_version
+    ):
         pass
 
     @abstractmethod
     def send_training_backend_nlu_persistor(
-        self, update_id, botdata, repository_authorization
+        self, update_id, botdata, repository_authorization, rasa_version
     ):
         pass
 
