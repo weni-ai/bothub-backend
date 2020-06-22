@@ -215,6 +215,27 @@ class BothubBackend(BaseBackend):
         )
         return update
 
+    def request_backend_save_queue_id(
+        self, update_id, repository_authorization, task_id, from_queue
+    ):
+        print(f"Starting connection request_backend_save_queue_id()")
+        time_start = time.time()
+        update = requests.post(
+            "{}/v2/repository/nlp/authorization/train/save_queue_id/".format(
+                self.backend
+            ),
+            data={
+                "repository_version": update_id,
+                "task_id": task_id,
+                "from_queue": from_queue,
+            },
+            headers={"Authorization": "Bearer {}".format(repository_authorization)},
+        ).json()
+        print(
+            f"End connection request_backend_save_queue_id() {str(time.time() - time_start)}"
+        )
+        return update
+
     def request_backend_get_examples(
         self, update_id, use_pagination=False, page=None, repository_authorization=None
     ):
