@@ -70,11 +70,9 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_get_entities(self, update_id, repository_authorization):
-        pass
-
-    @abstractmethod
-    def request_backend_get_entities_labels(self, update_id, repository_authorization):
+    def request_backend_save_queue_id(
+        self, update_id, repository_authorization, task_id, from_queue
+    ):
         pass
 
     @abstractmethod
