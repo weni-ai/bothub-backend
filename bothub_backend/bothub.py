@@ -199,7 +199,7 @@ class BothubBackend(BaseBackend):
         return update
 
     def request_backend_start_training_nlu(
-        self, update_id, by, repository_authorization
+        self, update_id, by, repository_authorization, from_queue
     ):
         print(f"Starting connection request_backend_start_training_nlu()")
         time_start = time.time()
@@ -207,7 +207,7 @@ class BothubBackend(BaseBackend):
             "{}/v2/repository/nlp/authorization/train/start_training/".format(
                 self.backend
             ),
-            data={"repository_version": update_id, "by_user": by},
+            data={"repository_version": update_id, "by_user": by, "from_queue": from_queue},
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
         ).json()
         print(
