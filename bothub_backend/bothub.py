@@ -184,20 +184,6 @@ class BothubBackend(BaseBackend):
         print(f"End connection request_backend_parse() {str(time.time() - time_start)}")
         return version
 
-    def request_backend_parse_nlu(self, update_id, repository_authorization):
-        print(f"Starting connection request_backend_parse_nlu()")
-        time_start = time.time()
-        update = requests.get(
-            "{}/v2/repository/nlp/update_interpreters/{}/".format(
-                self.backend, update_id
-            ),
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
-        print(
-            f"End connection request_backend_parse_nlu() {str(time.time() - time_start)}"
-        )
-        return update
-
     def request_backend_start_training_nlu(
         self, update_id, by, repository_authorization, from_queue
     ):

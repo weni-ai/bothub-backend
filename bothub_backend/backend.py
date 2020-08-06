@@ -60,10 +60,6 @@ class BaseBackend(object):
         pass
 
     @abstractmethod
-    def request_backend_parse_nlu(self, update_id, repository_authorization):
-        pass
-
-    @abstractmethod
     def request_backend_start_training_nlu(
         self, update_id, by, repository_authorization, from_queue
     ):
