@@ -298,16 +298,26 @@ class BothubBackend(BaseBackend):
         return update
 
     def request_backend_parse_nlu_persistor(
-        self, update_id, repository_authorization, rasa_version
+            self, update_id, repository_authorization, rasa_version, no_bot_data=False
     ):
         print(f"Starting connection request_backend_parse_nlu_persistor()")
         time_start = time.time()
-        update = requests.get(
-            "{}/v2/repository/nlp/update_interpreters/{}/?rasa_version={}".format(
-                self.backend, update_id, rasa_version
-            ),
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
+
+        if no_bot_data:
+            update = requests.get(
+                "{}/v2/repository/nlp/update_interpreters/{}/?rasa_version={}?no_bot_data={}".format(
+                    self.backend, update_id, rasa_version, no_bot_data
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+        else:
+            update = requests.get(
+                "{}/v2/repository/nlp/update_interpreters/{}/?rasa_version={}".format(
+                    self.backend, update_id, rasa_version
+                ),
+                headers={"Authorization": "Bearer {}".format(repository_authorization)},
+            ).json()
+
         print(
             f"End connection request_backend_parse_nlu_persistor() {str(time.time() - time_start)}"
         )
