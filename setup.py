@@ -7,6 +7,6 @@ setup(
     description='Bothub NLP Backend',
     packages=find_packages(),
     install_requires=[
-        'requests==2.20.1',
+        'requests',
     ],
 )
