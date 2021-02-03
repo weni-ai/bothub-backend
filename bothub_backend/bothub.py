@@ -145,34 +145,23 @@ class BothubBackend(BaseBackend):
         headers = {
             "Authorization": f"Bearer {repository_authorization}"
         }
-        version = requests.get(url, params=query_params, headers=headers).json()
+        response = requests.get(url, params=query_params, headers=headers).json()
 
-        return version
+        return response
 
-    def request_backend_train(
-        self, repository_authorization, language=None, repository_version=None
-    ):
-        print(f"Starting connection request_backend_train()")
-        time_start = time.time()
-        if repository_version:
-            version = requests.get(
-                "{}/v2/repository/nlp/authorization/train/{}/?language={}&repository_version={}".format(
-                    self.backend,
-                    repository_authorization,
-                    language,
-                    repository_version,
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        else:
-            version = requests.get(
-                "{}/v2/repository/nlp/authorization/train/{}/?language={}".format(
-                    self.backend, repository_authorization, language
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        print(f"End connection request_backend_parse() {str(time.time() - time_start)}")
-        return version
+    @print_execution_time
+    def request_backend_train(self, repository_authorization, language=None, repository_version=None):
+        url = f"{self.backend}/v2/repository/nlp/authorization/train/{repository_authorization}/"
+        query_params = {
+            "language": language,
+            "repository_version": repository_version
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, params=query_params, headers=headers).json()
+
+        return response
 
     def request_backend_start_training_nlu(
         self, update_id, by, repository_authorization, from_queue
