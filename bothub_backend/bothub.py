@@ -3,6 +3,7 @@ import time
 import requests
 import base64
 from .backend import BaseBackend
+from .decorators import print_execution_time
 
 
 class BothubBackend(BaseBackend):
@@ -134,29 +135,18 @@ class BothubBackend(BaseBackend):
         )
         return version
 
-    def request_backend_info(
-        self, repository_authorization, language=None, repository_version=None
-    ):
-        print(f"Starting connection request_backend_info()")
-        time_start = time.time()
-        if repository_version:
-            version = requests.get(
-                "{}/v2/repository/nlp/authorization/info/{}/?language={}&repository_version={}".format(
-                    self.backend,
-                    repository_authorization,
-                    language,
-                    repository_version,
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        else:
-            version = requests.get(
-                "{}/v2/repository/nlp/authorization/info/{}/?language={}".format(
-                    self.backend, repository_authorization, language
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        print(f"End connection request_backend_info() {str(time.time() - time_start)}")
+    @print_execution_time
+    def request_backend_info(self, repository_authorization, language=None, repository_version=None):
+        url = f"{self.backend}/v2/repository/nlp/authorization/info/{repository_authorization}/"
+        query_params = {
+            "language": language,
+            "repository_version": repository_version
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        version = requests.get(url, params=query_params, headers=headers).json()
+
         return version
 
     def request_backend_train(
