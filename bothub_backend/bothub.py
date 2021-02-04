@@ -174,28 +174,18 @@ class BothubBackend(BaseBackend):
         )
         return update
 
-    def request_backend_get_examples(
-        self, update_id, use_pagination=False, page=None, repository_authorization=None
-    ):
-        print(f"Starting connection request_backend_get_examples()")
-        time_start = time.time()
-        if not use_pagination:
-            update = requests.get(
-                "{}/v2/repository/nlp/authorization/train/get_examples/?repository_version={}".format(
-                    self.backend, update_id
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        else:
-            update = requests.get(
-                page,
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        print(
-            f"End connection request_backend_get_examples() {str(time.time() - time_start)}"
-        )
+    @print_execution_time
+    def request_backend_get_examples(self, update_id, repository_authorization=None):
+        url = f"{self.backend}/v2/repository/nlp/authorization/train/get_examples/"
+        query_params = {
+            "repository_version": update_id
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, params=query_params, headers=headers).json()
 
-        return update
+        return response
 
     def request_backend_get_examples_labels(
         self, update_id, use_pagination=False, page=None, repository_authorization=None
