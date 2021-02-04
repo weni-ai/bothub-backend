@@ -83,30 +83,19 @@ class BothubBackend(BaseBackend):
         print(f"End connection get_langs() {str(time.time() - time_start)}")
         return langs
 
-    def request_backend_parse(
-        self, repository_authorization, language=None, repository_version=None
-    ):
-        print(f"Starting connection request_backend_parse()")
-        time_start = time.time()
-        if repository_version:
-            version = requests.get(
-                "{}/v2/repository/nlp/authorization/parse/{}/?language={}&repository_version={}".format(
-                    self.backend,
-                    repository_authorization,
-                    language,
-                    repository_version,
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        else:
-            version = requests.get(
-                "{}/v2/repository/nlp/authorization/parse/{}/?language={}".format(
-                    self.backend, repository_authorization, language
-                ),
-                headers={"Authorization": "Bearer {}".format(repository_authorization)},
-            ).json()
-        print(f"End connection request_backend_parse() {str(time.time() - time_start)}")
-        return version
+    @print_execution_time
+    def request_backend_parse(self, repository_authorization, language=None, repository_version=None):
+        url = f"{self.backend}/v2/repository/nlp/authorization/parse/{repository_authorization}/"
+        query_params = {
+            "language": language,
+            "repository_version": repository_version
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, params=query_params, headers=headers).json()
+
+        return response
 
     @print_execution_time
     def request_backend_evaluate(self, repository_authorization, language=None, repository_version=None):
