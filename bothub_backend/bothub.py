@@ -11,19 +11,18 @@ class BothubBackend(BaseBackend):
     Bothub instance as a backend
     """
 
+    @print_execution_time
     def request_backend_start_evaluation(self, update_id, repository_authorization):
-        print(f"Starting connection request_backend_start_evaluation()")
-        time_start = time.time()
-        update = requests.get(
-            "{}/v2/repository/nlp/authorization/evaluate/evaluations/?repository_version={}".format(
-                self.backend, update_id
-            ),
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
-        print(
-            f"End connection request_backend_start_evaluation() {str(time.time() - time_start)}"
-        )
-        return update
+        url = f"{self.backend}/v2/repository/nlp/authorization/evaluate/evaluations/"
+        query_params = {
+            "repository_version": update_id
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, params=query_params, headers=headers).json()
+
+        return response
 
     def request_backend_create_evaluate_results(self, data, repository_authorization):
         print(f"Starting connection request_backend_create_evaluate_results()")
