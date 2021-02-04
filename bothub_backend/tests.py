@@ -16,6 +16,24 @@ class TestBothubBackend(unittest.TestCase):
         self.repository_version = 50
 
     @requests_mock.Mocker()
+    def test_get_langs(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/langs/"
+        json = {
+            "english": [
+                "en"
+            ],
+            "portuguese": [
+                "pt",
+                "pt_br"
+            ]
+        }
+        request_mock.get(url=url, json=json)
+
+        response = self.bh.get_langs()
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
     def test_request_backend_parse(self, request_mock):
         query_params = f"?language={self.language}&repository_version={self.repository_version}"
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/parse/{self.repository_authorization}/{query_params}"

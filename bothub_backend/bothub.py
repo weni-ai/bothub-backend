@@ -74,14 +74,12 @@ class BothubBackend(BaseBackend):
         )
         return update
 
+    @print_execution_time
     def get_langs(self):
-        print(f"Starting connection get_langs()")
-        time_start = time.time()
-        langs = requests.get(
-            "{}/v2/repository/nlp/authorization/langs/".format(self.backend,)
-        ).json()
-        print(f"End connection get_langs() {str(time.time() - time_start)}")
-        return langs
+        url = f"{self.backend}/v2/repository/nlp/authorization/langs/"
+        response = requests.get(url).json()
+
+        return response
 
     @print_execution_time
     def request_backend_parse(self, repository_authorization, language=None, repository_version=None):
