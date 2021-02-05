@@ -349,6 +349,21 @@ class TestBothubBackend(unittest.TestCase):
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
+    def test_send_training_backend_nlu_persistor(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/update_interpreters/"
+        json = {}
+        request_mock.post(url=url, json=json)
+
+        response = self.bh.send_training_backend_nlu_persistor(
+            update_id=self.repository_version,
+            botdata=b"testbyte",
+            repository_authorization=self.repository_authorization,
+            rasa_version="1.10.6"
+        )
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
     def test_request_backend_repository_entity_nlu_parse(self, request_mock):
         query_params = f"?repository_version={self.repository_version}&entity=eletrodomestico"
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/parse/repository_entity/{query_params}"
