@@ -226,21 +226,19 @@ class BothubBackend(BaseBackend):
         )
         return update
 
-    def request_backend_repository_entity_nlu_parse(
-        self, update_id, repository_authorization, entity
-    ):
-        print(f"Starting connection request_backend_repository_entity_nlu_parse()")
-        time_start = time.time()
-        update = requests.get(
-            "{}/v2/repository/nlp/authorization/parse/repository_entity/?repository_version={}&entity={}".format(
-                self.backend, update_id, entity
-            ),
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
-        print(
-            f"End connection request_backend_repository_entity_nlu_parse() {str(time.time() - time_start)}"
-        )
-        return update
+    @print_execution_time
+    def request_backend_repository_entity_nlu_parse(self, update_id, repository_authorization, entity):
+        url = f"{self.backend}/v2/repository/nlp/authorization/parse/repository_entity/"
+        query_params = {
+            "repository_version": update_id,
+            "entity": entity
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, params=query_params, headers=headers).json()
+
+        return response
 
     @print_execution_time
     def send_log_nlp_parse(self, data):

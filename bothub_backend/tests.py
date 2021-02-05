@@ -320,6 +320,24 @@ class TestBothubBackend(unittest.TestCase):
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
+    def test_request_backend_repository_entity_nlu_parse(self, request_mock):
+        query_params = f"?repository_version={self.repository_version}&entity=eletrodomestico"
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/parse/repository_entity/{query_params}"
+        json = {
+            "label": True,
+            "label_value": "teste"
+        }
+        request_mock.get(url=url, json=json)
+
+        response = self.bh.request_backend_repository_entity_nlu_parse(
+            update_id=self.repository_version,
+            repository_authorization=self.repository_authorization,
+            entity="eletrodomestico"
+        )
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
     def test_send_log_nlp_parse(self, request_mock):
         url = f"{BOTHUB_API_URL}/v2/repository/nlp/log/"
         json = {
