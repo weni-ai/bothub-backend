@@ -187,18 +187,18 @@ class BothubBackend(BaseBackend):
 
         return response
 
+    @print_execution_time
     def request_backend_trainfail_nlu(self, update_id, repository_authorization):
-        print(f"Starting connection request_backend_trainfail_nlu()")
-        time_start = time.time()
-        update = requests.post(
-            "{}/v2/repository/nlp/authorization/train/train_fail/".format(self.backend),
-            data={"repository_version": update_id},
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
-        print(
-            f"End connection request_backend_trainfail_nlu() {str(time.time() - time_start)}"
-        )
-        return update
+        url = f"{self.backend}/v2/repository/nlp/authorization/train/train_fail/"
+        data = {
+            "repository_version": update_id
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.post(url, data=data, headers=headers).json()
+
+        return response
 
     def request_backend_traininglog_nlu(
         self, update_id, training_log, repository_authorization
