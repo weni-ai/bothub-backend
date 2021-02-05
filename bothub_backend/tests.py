@@ -176,3 +176,16 @@ class TestBothubBackend(unittest.TestCase):
         )
 
         self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
+    def test_request_backend_trainfail_nlu(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/train/train_fail/"
+        json = {}
+        request_mock.post(url=url, json=json)
+
+        response = self.bh.request_backend_trainfail_nlu(
+            update_id=self.repository_version,
+            repository_authorization=self.repository_authorization
+        )
+
+        self.assertEqual(response, json)
