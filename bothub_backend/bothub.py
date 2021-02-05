@@ -179,22 +179,19 @@ class BothubBackend(BaseBackend):
 
         return response
 
-    def request_backend_traininglog_nlu(
-        self, update_id, training_log, repository_authorization
-    ):
-        print(f"Starting connection request_backend_traininglog_nlu()")
-        time_start = time.time()
-        update = requests.post(
-            "{}/v2/repository/nlp/authorization/train/training_log/".format(
-                self.backend
-            ),
-            data={"repository_version": update_id, "training_log": training_log},
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
-        print(
-            f"End connection request_backend_traininglog_nlu() {str(time.time() - time_start)}"
-        )
-        return update
+    @print_execution_time
+    def request_backend_traininglog_nlu(self, update_id, training_log, repository_authorization):
+        url = f"{self.backend}/v2/repository/nlp/authorization/train/training_log/"
+        data = {
+            "repository_version": update_id,
+            "training_log": training_log
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.post(url, data=data, headers=headers).json()
+
+        return response
 
     @print_execution_time
     def request_backend_parse_nlu_persistor(self, update_id, repository_authorization, rasa_version, no_bot_data=False):
