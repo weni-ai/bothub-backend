@@ -41,6 +41,36 @@ class TestBothubBackend(unittest.TestCase):
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
+    def test_request_backend_create_evaluate_results(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/evaluate/evaluate_results/"
+        json = {
+            "evaluate_id": 5,
+            "evaluate_version": 3
+        }
+        request_mock.post(url=url, json=json)
+
+        data = {
+            "repository_version": 46,
+            "intentprecision": 1,
+            "intentf1_score": 1,
+            "intentaccuracy": 1,
+            "entityprecision": 1,
+            "entityf1_score": 1,
+            "entityaccuracy": 1,
+            "matrix_chart": "teste",
+            "confidence_chart": "teste",
+            "log": "teste",
+            "cross_validation": False
+        }
+
+        response = self.bh.request_backend_create_evaluate_results(
+            data=data,
+            repository_authorization=self.repository_authorization
+        )
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
     def test_get_langs(self, request_mock):
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/langs/"
         json = {
