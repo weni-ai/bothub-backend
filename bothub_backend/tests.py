@@ -246,6 +246,35 @@ class TestBothubBackend(unittest.TestCase):
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
+    def test_request_backend_save_queue_id(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/train/save_queue_id/"
+        json = [
+            {
+                "id": 1,
+                "id_queue": 1,
+                "from_queue": 1,
+                "status": 1,
+                "ml_units": 1,
+                "created_at": 1,
+                "end_training": 1,
+                "status_codes": 1,
+                "from_queue_codes": 1,
+                "type_processing": 1,
+                "processing_codes": 1
+            }
+        ]
+        request_mock.post(url=url, json=json)
+
+        response = self.bh.request_backend_save_queue_id(
+            update_id=self.repository_version,
+            repository_authorization=self.repository_authorization,
+            task_id=1,
+            from_queue="celery",
+        )
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
     def test_request_backend_get_examples(self, request_mock):
         query_params = f"?repository_version={self.repository_version}"
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/train/get_examples/{query_params}"
