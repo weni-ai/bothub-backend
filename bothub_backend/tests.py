@@ -289,3 +289,29 @@ class TestBothubBackend(unittest.TestCase):
         )
 
         self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
+    def test_send_log_nlp_parse(self, request_mock):
+        url = f"{BOTHUB_API_URL}/v2/repository/nlp/log/"
+        json = {
+            "id": 1,
+            "text": "test",
+            "user_agent": "test",
+            "repository_version_language": "test",
+            "nlp_log": "test",
+            "user": "test",
+            "log_intent": "test",
+            "from_backend": "test",
+        }
+        request_mock.post(url=url, json=json)
+
+        data = {
+            "text": "test",
+            "from_backend": False,
+            "user_agent": "PostmanRuntime/7.26.10",
+            "user": "teste"
+        }
+
+        response = self.bh.send_log_nlp_parse(data=data)
+
+        self.assertEqual(response, json)

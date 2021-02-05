@@ -257,13 +257,12 @@ class BothubBackend(BaseBackend):
         )
         return update
 
+    @print_execution_time
     def send_log_nlp_parse(self, data):
-        print(f"Starting connection send_log_nlp_parse()")
-        time_start = time.time()
-        update = requests.post(
-            "{}/v2/repository/nlp/log/".format(self.backend),
-            json=data,
-            headers={"Content-Type": "application/json",},
-        ).json()
-        print(f"End connection send_log_nlp_parse() {str(time.time() - time_start)}")
-        return update
+        url = f"{self.backend}/v2/repository/nlp/log/"
+        headers = {
+            "Content-Type": "application/json"
+        }
+        response = requests.post(url, data=data, headers=headers).json()
+
+        return response
