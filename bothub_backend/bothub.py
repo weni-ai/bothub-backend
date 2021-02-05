@@ -44,22 +44,15 @@ class BothubBackend(BaseBackend):
 
         return response
 
-    def request_backend_create_evaluate_results_score(
-        self, data, repository_authorization
-    ):
-        print(f"Starting connection request_backend_create_evaluate_results_score()")
-        time_start = time.time()
-        update = requests.post(
-            "{}/v2/repository/nlp/authorization/evaluate/evaluate_results_score/".format(
-                self.backend,
-            ),
-            data=data,
-            headers={"Authorization": "Bearer {}".format(repository_authorization)},
-        ).json()
-        print(
-            f"End connection request_backend_create_evaluate_results_score() {str(time.time() - time_start)}"
-        )
-        return update
+    @print_execution_time
+    def request_backend_create_evaluate_results_score(self, data, repository_authorization):
+        url = f"{self.backend}/v2/repository/nlp/authorization/evaluate/evaluate_results_score/"
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.post(url, data=data, headers=headers).json()
+
+        return response
 
     @print_execution_time
     def get_langs(self):
