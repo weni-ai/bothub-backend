@@ -77,7 +77,9 @@ class BothubBackend(BaseBackend):
         print(f"Starting connection get_langs()")
         time_start = time.time()
         langs = requests.get(
-            "{}/v2/repository/nlp/authorization/langs/".format(self.backend,)
+            "{}/v2/repository/nlp/authorization/langs/".format(
+                self.backend,
+            )
         ).json()
         print(f"End connection get_langs() {str(time.time() - time_start)}")
         return langs
@@ -193,7 +195,11 @@ class BothubBackend(BaseBackend):
             "{}/v2/repository/nlp/authorization/train/start_training/".format(
                 self.backend
             ),
-            data={"repository_version": update_id, "by_user": by, "from_queue": from_queue},
+            data={
+                "repository_version": update_id,
+                "by_user": by,
+                "from_queue": from_queue,
+            },
             headers={"Authorization": "Bearer {}".format(repository_authorization)},
         ).json()
         print(
@@ -223,15 +229,24 @@ class BothubBackend(BaseBackend):
         return update
 
     def request_backend_get_examples(
-        self, update_id, use_pagination=False, page=None, repository_authorization=None
+        self,
+        update_id,
+        use_pagination=False,
+        page=None,
+        repository_authorization=None,
+        intent="",
     ):
         print(f"Starting connection request_backend_get_examples()")
         time_start = time.time()
         if not use_pagination:
             update = requests.get(
-                "{}/v2/repository/nlp/authorization/train/get_examples/?repository_version={}".format(
-                    self.backend, update_id
+                "{}/v2/repository/nlp/authorization/train/get_examples".format(
+                    self.backend
                 ),
+                params={
+                    "repository_version": update_id,
+                    "intent": intent
+                },
                 headers={"Authorization": "Bearer {}".format(repository_authorization)},
             ).json()
         else:
@@ -298,7 +313,7 @@ class BothubBackend(BaseBackend):
         return update
 
     def request_backend_parse_nlu_persistor(
-            self, update_id, repository_authorization, rasa_version, no_bot_data=False
+        self, update_id, repository_authorization, rasa_version, no_bot_data=False
     ):
         print(f"Starting connection request_backend_parse_nlu_persistor()")
         time_start = time.time()
@@ -364,7 +379,9 @@ class BothubBackend(BaseBackend):
         update = requests.post(
             "{}/v2/repository/nlp/log/".format(self.backend),
             json=data,
-            headers={"Content-Type": "application/json",},
+            headers={
+                "Content-Type": "application/json",
+            },
         ).json()
         print(f"End connection send_log_nlp_parse() {str(time.time() - time_start)}")
         return update
