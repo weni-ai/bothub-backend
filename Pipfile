@@ -11,6 +11,7 @@ lint = "flake8"
 [dev-packages]
 "flake8" = "*"
 "requests" = "*"
+requests-mock = "*"
 black = "==19.10b0"
 
 [requires]
