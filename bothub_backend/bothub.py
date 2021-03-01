@@ -133,12 +133,13 @@ class BothubBackend(BaseBackend):
         return response
 
     @print_execution_time
-    def request_backend_save_queue_id(self, update_id, repository_authorization, task_id, from_queue):
+    def request_backend_save_queue_id(self, update_id, repository_authorization, task_id, from_queue, type_processing):
         url = f"{self.backend}/v2/repository/nlp/authorization/train/save_queue_id/"
         data = {
             "repository_version": update_id,
             "task_id": task_id,
-            "from_queue": from_queue
+            "from_queue": from_queue,
+            "type_processing": type_processing
         }
         headers = {
             "Authorization": f"Bearer {repository_authorization}"

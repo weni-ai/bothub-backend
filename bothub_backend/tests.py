@@ -270,6 +270,7 @@ class TestBothubBackend(unittest.TestCase):
             repository_authorization=self.repository_authorization,
             task_id=1,
             from_queue="celery",
+            type_processing=1
         )
 
         self.assertEqual(response, json)

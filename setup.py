@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='bothub_backend',
-    version='1.0.13',
+    version='1.0.15',
     description='Bothub NLP Backend',
     packages=find_packages(),
     install_requires=[
