@@ -190,7 +190,7 @@ class BothubBackend(BaseBackend):
         return response
 
     @print_execution_time
-    def request_backend_parse_nlu_persistor(self, update_id, repository_authorization, rasa_version, no_bot_data=False):
+    def request_backend_parse_nlu_persistor(self, update_id, repository_authorization, rasa_version, no_bot_data=None):
         url = f"{self.backend}/v2/repository/nlp/update_interpreters/{update_id}/"
         query_params = {
             "rasa_version": rasa_version,
