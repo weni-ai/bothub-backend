@@ -149,16 +149,24 @@ class BothubBackend(BaseBackend):
         return response
 
     @print_execution_time
-    def request_backend_get_examples(self, update_id, repository_authorization=None, intent=""):
-        url = f"{self.backend}/v2/repository/nlp/authorization/train/get_examples/"
-        query_params = {
-            "repository_version": update_id,
-            "intent": intent
-        }
+    def request_backend_get_examples(self,
+        update_id,
+        page=None,
+        repository_authorization=None,
+        intent="",
+    ):
         headers = {
             "Authorization": f"Bearer {repository_authorization}"
         }
-        response = requests.get(url, params=query_params, headers=headers).json()
+        if page:
+            response = requests.get(page, headers=headers).json()
+        else:
+            url = f"{self.backend}/v2/repository/nlp/authorization/train/get_examples/"
+            query_params = {
+                "repository_version": update_id,
+                "intent": intent
+            }
+            response = requests.get(url, params=query_params, headers=headers).json()
 
         return response
 
