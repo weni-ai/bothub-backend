@@ -151,7 +151,6 @@ class BothubBackend(BaseBackend):
     @print_execution_time
     def request_backend_get_examples(self,
         update_id,
-        use_pagination=False,
         page=None,
         repository_authorization=None,
         intent="",
@@ -159,15 +158,15 @@ class BothubBackend(BaseBackend):
         headers = {
             "Authorization": f"Bearer {repository_authorization}"
         }
-        if not use_pagination:
+        if page:
+            response = requests.get(page, headers=headers).json()
+        else:
             url = f"{self.backend}/v2/repository/nlp/authorization/train/get_examples/"
             query_params = {
                 "repository_version": update_id,
                 "intent": intent
             }
             response = requests.get(url, params=query_params, headers=headers).json()
-        else:
-            response = requests.get(page, headers=headers).json()
 
         return response
 
