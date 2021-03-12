@@ -419,3 +419,22 @@ class TestBothubBackend(unittest.TestCase):
         response = self.bh.send_log_nlp_parse(data=data)
 
         self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
+    def test_request_backend_knowledge_bases(self, request_mock):
+        query_params = f"?knowledge_base_id=1&language={self.language}"
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/knowledge-base/{self.repository_authorization}/{query_params}"
+        json = {
+            "knowledge_base_id": 1,
+            "text": "a weni é uma empresa sensacional",
+            "language": self.language 
+        }
+        request_mock.get(url=url, json=json)
+
+        response = self.bh.request_backend_knowledge_bases(
+            repository_authorization=self.repository_authorization,
+            knowledge_base_id=1,
+            language=self.language
+        )
+
+        self.assertEqual(response, json)
