@@ -259,3 +259,16 @@ class BothubBackend(BaseBackend):
         response = requests.get(url, headers=headers).json()
 
         return response
+
+    def request_backend_knowledge_bases(self, repository_authorization, knowledge_base_id, language):
+        url = f"{self.backend}/v2/repository/nlp/authorization/knowledge-base/{repository_authorization}/"
+        query_params = {
+            "knowledge_base_id": knowledge_base_id,
+            "language": language
+        }
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, params=query_params, headers=headers).json()
+
+        return response
