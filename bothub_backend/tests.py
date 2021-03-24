@@ -419,3 +419,22 @@ class TestBothubBackend(unittest.TestCase):
         response = self.bh.send_log_nlp_parse(data=data)
 
         self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
+    def test_request_backend_get_current_configuration(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/info/{self.repository_authorization}/get_current_configuration"
+        json = {
+            "language": self.language,
+            "user_id": 979,
+            "algorithm": "transformer_network_diet_bert",
+            "use_name_entities": False,
+            "use_competing_intents": False,
+            "use_analyze_char": False
+        }
+        request_mock.get(url=url, json=json)
+
+        response = self.bh.request_backend_get_current_configuration(
+            repository_authorization=self.repository_authorization,
+        )
+
+        self.assertEqual(response, json)

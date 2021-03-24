@@ -249,3 +249,13 @@ class BothubBackend(BaseBackend):
         response = requests.post(url, data=data, headers=headers).json()
 
         return response
+
+    @print_execution_time
+    def request_backend_get_current_configuration(self, repository_authorization):
+        url = f"{self.backend}/v2/repository/nlp/authorization/info/{repository_authorization}/get_current_configuration"
+        headers = {
+            "Authorization": f"Bearer {repository_authorization}"
+        }
+        response = requests.get(url, headers=headers).json()
+
+        return response
