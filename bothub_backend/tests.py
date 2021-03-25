@@ -421,6 +421,25 @@ class TestBothubBackend(unittest.TestCase):
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
+    def test_request_backend_get_current_configuration(self, request_mock):
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/info/{self.repository_authorization}/get_current_configuration"
+        json = {
+            "language": self.language,
+            "user_id": 979,
+            "algorithm": "transformer_network_diet_bert",
+            "use_name_entities": False,
+            "use_competing_intents": False,
+            "use_analyze_char": False
+        }
+        request_mock.get(url=url, json=json)
+
+        response = self.bh.request_backend_get_current_configuration(
+            repository_authorization=self.repository_authorization,
+        )
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
     def test_request_backend_knowledge_bases(self, request_mock):
         query_params = f"?knowledge_base_id=1&language={self.language}"
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/knowledge-base/{self.repository_authorization}/{query_params}"
