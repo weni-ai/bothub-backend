@@ -273,7 +273,7 @@ class BothubBackend(BaseBackend):
 
         return response
 
-    def request_backend_examples(self, repository_authorization, language, repository_version=None):
+    def request_backend_examples(self, repository_authorization, language, repository_version=None, page=None):
         url = f"{self.backend}/v2/repository/nlp/authorization/examples/{repository_authorization}/"
         query_params = {
             "repository_version": repository_version,
@@ -282,7 +282,9 @@ class BothubBackend(BaseBackend):
         headers = {
             "Authorization": f"Bearer {repository_authorization}"
         }
-        response = requests.get(url, params=query_params, headers=headers).json()
+        if page:
+            response = requests.get(page, headers=headers).json()
+        else:
+            response = requests.get(url, params=query_params, headers=headers).json()
 
         return response
-
