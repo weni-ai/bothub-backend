@@ -11,4 +11,5 @@ def print_execution_time(function):
         print(f"End connection {function.__name__}() {str(time.time() - time_start)}")
 
         return response
+
     return wrapper

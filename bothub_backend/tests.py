@@ -11,7 +11,9 @@ BOTHUB_API_REPOSITORY_NLP_URL = f"{BOTHUB_API_URL}/v2/repository/nlp"
 class TestBothubBackend(unittest.TestCase):
     def setUp(self):
         self.bh = BothubBackend(backend=BOTHUB_API_URL)
-        self.repository_authorization = "e25d890d-0746-47d1-8151-9fd9355cd913"  # Fake uuid
+        self.repository_authorization = (
+            "e25d890d-0746-47d1-8151-9fd9355cd913"
+        )  # Fake uuid
         self.language = "pt-br"
         self.repository_version = 50
 
@@ -23,30 +25,29 @@ class TestBothubBackend(unittest.TestCase):
             {
                 "text": "quero comprar um chocolate",
                 "intent": "comprar",
-                "entities": ["comida"]
+                "entities": ["comida"],
             },
             {
                 "text": "quero comer um chocolate",
                 "intent": "comer",
-                "entities": ["comida"]
-            }
+                "entities": ["comida"],
+            },
         ]
         request_mock.get(url=url, json=json)
 
         response = self.bh.request_backend_start_evaluation(
             update_id=self.repository_version,
-            repository_authorization=self.repository_authorization
+            repository_authorization=self.repository_authorization,
         )
 
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
     def test_request_backend_create_evaluate_results(self, request_mock):
-        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/evaluate/evaluate_results/"
-        json = {
-            "evaluate_id": 5,
-            "evaluate_version": 3
-        }
+        url = (
+            f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/evaluate/evaluate_results/"
+        )
+        json = {"evaluate_id": 5, "evaluate_version": 3}
         request_mock.post(url=url, json=json)
 
         data = {
@@ -60,12 +61,11 @@ class TestBothubBackend(unittest.TestCase):
             "matrix_chart": "teste",
             "confidence_chart": "teste",
             "log": "teste",
-            "cross_validation": False
+            "cross_validation": False,
         }
 
         response = self.bh.request_backend_create_evaluate_results(
-            data=data,
-            repository_authorization=self.repository_authorization
+            data=data, repository_authorization=self.repository_authorization
         )
 
         self.assertEqual(response, json)
@@ -82,12 +82,11 @@ class TestBothubBackend(unittest.TestCase):
             "recall": 1,
             "f1_score": 1,
             "support": 1,
-            "intent_key": "eletros"
+            "intent_key": "eletros",
         }
 
         response = self.bh.request_backend_create_evaluate_results_intent(
-            data=data,
-            repository_authorization=self.repository_authorization
+            data=data, repository_authorization=self.repository_authorization
         )
 
         self.assertEqual(response, json)
@@ -105,12 +104,11 @@ class TestBothubBackend(unittest.TestCase):
             "recall": 1,
             "f1_score": 1,
             "support": 1,
-            "intent_key": "entidade_teste"
+            "intent_key": "entidade_teste",
         }
 
         response = self.bh.request_backend_create_evaluate_results_score(
-            data=data,
-            repository_authorization=self.repository_authorization
+            data=data, repository_authorization=self.repository_authorization
         )
 
         self.assertEqual(response, json)
@@ -118,15 +116,7 @@ class TestBothubBackend(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_langs(self, request_mock):
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/langs/"
-        json = {
-            "english": [
-                "en"
-            ],
-            "portuguese": [
-                "pt",
-                "pt_br"
-            ]
-        }
+        json = {"english": ["en"], "portuguese": ["pt", "pt_br"]}
         request_mock.get(url=url, json=json)
 
         response = self.bh.get_langs()
@@ -135,7 +125,9 @@ class TestBothubBackend(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_request_backend_parse(self, request_mock):
-        query_params = f"?language={self.language}&repository_version={self.repository_version}"
+        query_params = (
+            f"?language={self.language}&repository_version={self.repository_version}"
+        )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/parse/{self.repository_authorization}/{query_params}"
         json = {
             "version": True,
@@ -145,7 +137,7 @@ class TestBothubBackend(unittest.TestCase):
             "algorithm": "transformer_network_diet_bert",
             "use_name_entities": False,
             "use_competing_intents": False,
-            "use_analyze_char": False
+            "use_analyze_char": False,
         }
         request_mock.get(url=url, json=json)
 
@@ -159,7 +151,9 @@ class TestBothubBackend(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_request_backend_evaluate(self, request_mock):
-        query_params = f"?language={self.language}&repository_version={self.repository_version}"
+        query_params = (
+            f"?language={self.language}&repository_version={self.repository_version}"
+        )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/evaluate/{self.repository_authorization}/{query_params}"
         json = {
             "update": True,
@@ -169,7 +163,7 @@ class TestBothubBackend(unittest.TestCase):
             "algorithm": "transformer_network_diet_bert",
             "use_name_entities": False,
             "use_competing_intents": False,
-            "use_analyze_char": False
+            "use_analyze_char": False,
         }
         request_mock.get(url=url, json=json)
 
@@ -183,7 +177,9 @@ class TestBothubBackend(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_request_backend_info(self, request_mock):
-        query_params = f"?language={self.language}&repository_version={self.repository_version}"
+        query_params = (
+            f"?language={self.language}&repository_version={self.repository_version}"
+        )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/info/{self.repository_authorization}/{query_params}"
         json = {"intents": ["comprar", "alugar"]}
         request_mock.get(url=url, json=json)
@@ -198,7 +194,9 @@ class TestBothubBackend(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_request_backend_train(self, request_mock):
-        query_params = f"?language={self.language}&repository_version={self.repository_version}"
+        query_params = (
+            f"?language={self.language}&repository_version={self.repository_version}"
+        )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/train/{self.repository_authorization}/{query_params}"
         json = {
             "ready_for_train": True,
@@ -208,7 +206,7 @@ class TestBothubBackend(unittest.TestCase):
             "algorithm": "transformer_network_diet_bert",
             "use_name_entities": False,
             "use_competing_intents": False,
-            "use_analyze_char": False
+            "use_analyze_char": False,
         }
         request_mock.get(url=url, json=json)
 
@@ -232,7 +230,7 @@ class TestBothubBackend(unittest.TestCase):
             "use_name_entities": False,
             "use_competing_intents": False,
             "use_analyze_char": True,
-            "total_training_end": 6
+            "total_training_end": 6,
         }
         request_mock.post(url=url, json=json)
 
@@ -260,7 +258,7 @@ class TestBothubBackend(unittest.TestCase):
                 "status_codes": 1,
                 "from_queue_codes": 1,
                 "type_processing": 1,
-                "processing_codes": 1
+                "processing_codes": 1,
             }
         ]
         request_mock.post(url=url, json=json)
@@ -270,7 +268,7 @@ class TestBothubBackend(unittest.TestCase):
             repository_authorization=self.repository_authorization,
             task_id=1,
             from_queue="celery",
-            type_processing=1
+            type_processing=1,
         )
 
         self.assertEqual(response, json)
@@ -292,17 +290,17 @@ class TestBothubBackend(unittest.TestCase):
                             "start": 12,
                             "end": 23,
                             "value": "apartamento",
-                            "entity": "moradia"
+                            "entity": "moradia",
                         }
-                    ]
+                    ],
                 }
-            ]
+            ],
         }
         request_mock.get(url=url, json=json)
 
         response = self.bh.request_backend_get_examples(
             update_id=self.repository_version,
-            repository_authorization=self.repository_authorization
+            repository_authorization=self.repository_authorization,
         )
 
         self.assertEqual(response, json)
@@ -315,7 +313,7 @@ class TestBothubBackend(unittest.TestCase):
 
         response = self.bh.request_backend_trainfail_nlu(
             update_id=self.repository_version,
-            repository_authorization=self.repository_authorization
+            repository_authorization=self.repository_authorization,
         )
 
         self.assertEqual(response, json)
@@ -329,7 +327,7 @@ class TestBothubBackend(unittest.TestCase):
         response = self.bh.request_backend_traininglog_nlu(
             update_id=self.repository_version,
             training_log={},
-            repository_authorization=self.repository_authorization
+            repository_authorization=self.repository_authorization,
         )
 
         self.assertEqual(response, json)
@@ -344,7 +342,7 @@ class TestBothubBackend(unittest.TestCase):
         response = self.bh.request_backend_parse_nlu_persistor(
             update_id=self.repository_version,
             repository_authorization=self.repository_authorization,
-            rasa_version="1"
+            rasa_version="1",
         )
 
         self.assertEqual(response, json)
@@ -359,25 +357,24 @@ class TestBothubBackend(unittest.TestCase):
             update_id=self.repository_version,
             botdata=b"testbyte",
             repository_authorization=self.repository_authorization,
-            rasa_version="1.10.6"
+            rasa_version="1.10.6",
         )
 
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
     def test_request_backend_repository_entity_nlu_parse(self, request_mock):
-        query_params = f"?repository_version={self.repository_version}&entity=eletrodomestico"
+        query_params = (
+            f"?repository_version={self.repository_version}&entity=eletrodomestico"
+        )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/parse/repository_entity/{query_params}"
-        json = {
-            "label": True,
-            "label_value": "teste"
-        }
+        json = {"label": True, "label_value": "teste"}
         request_mock.get(url=url, json=json)
 
         response = self.bh.request_backend_repository_entity_nlu_parse(
             update_id=self.repository_version,
             repository_authorization=self.repository_authorization,
-            entity="eletrodomestico"
+            entity="eletrodomestico",
         )
 
         self.assertEqual(response, json)
@@ -401,7 +398,7 @@ class TestBothubBackend(unittest.TestCase):
             "text": "test",
             "from_backend": False,
             "user_agent": "PostmanRuntime/7.26.10",
-            "user": "teste"
+            "user": "teste",
         }
 
         response = self.bh.send_log_nlp_parse(data=data)
@@ -411,9 +408,9 @@ class TestBothubBackend(unittest.TestCase):
         data = {
             "text": "test",
             "from_backend": False,
-            "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) " + 
-                            "Chrome/87.0.4280.88 Safari/537.36",
-            "user": "teste"
+            "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+            + "Chrome/87.0.4280.88 Safari/537.36",
+            "user": "teste",
         }
 
         response = self.bh.send_log_nlp_parse(data=data)
@@ -429,12 +426,12 @@ class TestBothubBackend(unittest.TestCase):
             "algorithm": "transformer_network_diet_bert",
             "use_name_entities": False,
             "use_competing_intents": False,
-            "use_analyze_char": False
+            "use_analyze_char": False,
         }
         request_mock.get(url=url, json=json)
 
         response = self.bh.request_backend_get_current_configuration(
-            repository_authorization=self.repository_authorization,
+            repository_authorization=self.repository_authorization
         )
 
         self.assertEqual(response, json)
@@ -446,21 +443,23 @@ class TestBothubBackend(unittest.TestCase):
         json = {
             "knowledge_base_id": 1,
             "text": "a weni é uma empresa sensacional",
-            "language": self.language 
+            "language": self.language,
         }
         request_mock.get(url=url, json=json)
 
         response = self.bh.request_backend_knowledge_bases(
             repository_authorization=self.repository_authorization,
             knowledge_base_id=1,
-            language=self.language
+            language=self.language,
         )
 
         self.assertEqual(response, json)
 
     @requests_mock.Mocker()
     def test_request_backend_examples(self, request_mock):
-        query_params = f"?repository_version={self.repository_version}&language={self.language}"
+        query_params = (
+            f"?repository_version={self.repository_version}&language={self.language}"
+        )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/examples/{self.repository_authorization}/{query_params}"
         json = {
             "count": 4,
@@ -470,21 +469,43 @@ class TestBothubBackend(unittest.TestCase):
                 {
                     "text": "quer morar num ap alugado",
                     "intent": "alugar",
-                    "entities": []
+                    "entities": [],
                 },
-                {
-                    "text": "quero alugar casa",
-                    "intent": "alugar",
-                    "entities": []
-                }
-            ]
+                {"text": "quero alugar casa", "intent": "alugar", "entities": []},
+            ],
         }
         request_mock.get(url=url, json=json)
 
         response = self.bh.request_backend_examples(
             repository_authorization=self.repository_authorization,
             language=self.language,
-            repository_version=self.repository_version
+            repository_version=self.repository_version,
+        )
+
+        self.assertEqual(response, json)
+
+    @requests_mock.Mocker()
+    def test_request_backend_start_automatic_evaluate(self, request_mock):
+        query_params = (
+            f"?repository_version={self.repository_version}&language={self.language}"
+        )
+        url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/automatic-evaluate/{self.repository_authorization}/{query_params}"
+        json = {
+            "language": self.language,
+            "repository_version_language_id": 58,
+            "user_id": 1,
+            "algorithm": "transformer_network_diet_bert",
+            "use_name_entities": False,
+            "use_competing_intents": False,
+            "use_analyze_char": False,
+            "can_run_automatic_evaluate": False,
+        }
+        request_mock.get(url=url, json=json)
+
+        response = self.bh.request_backend_start_automatic_evaluate(
+            repository_authorization=self.repository_authorization,
+            repository_version=self.repository_version,
+            language=self.language,
         )
 
         self.assertEqual(response, json)
