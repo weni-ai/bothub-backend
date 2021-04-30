@@ -191,15 +191,9 @@ class BothubBackend(BaseBackend):
         time_start = time.time()
 
         url = f"{self.backend}/v2/repository/nlp/authorization/train-languages/{repository_authorization}/"
-
-        if repository_version:
-            url += f"?repository_version={repository_version}"
-
-        print(url)
-        response = requests.get(
-            url,
-            headers={"Authorization": f"Bearer {repository_authorization}"}
-        ).json()
+        params = {"repository_version": repository_version}
+        headers = {"Authorization": f"Bearer {repository_authorization}"}
+        response = requests.get(url, params=params, headers=headers).json()
 
         print(f"End connection request_all_readytotrain_languages() {str(time.time() - time_start)}")
         return response
