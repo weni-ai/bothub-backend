@@ -100,6 +100,17 @@ class BothubBackend(BaseBackend):
         response = requests.get(url, params=query_params, headers=headers).json()
 
         return response
+      
+    @print_execution_time
+    def request_all_readytotrain_languages(
+        self, repository_authorization, repository_version=None
+    ):
+        url = f"{self.backend}/v2/repository/nlp/authorization/train-languages/{repository_authorization}/"
+        params = {"repository_version": repository_version}
+        headers = {"Authorization": f"Bearer {repository_authorization}"}
+        response = requests.get(url, params=params, headers=headers).json()
+
+        return response
 
     @print_execution_time
     def request_backend_start_training_nlu(
