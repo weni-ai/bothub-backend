@@ -178,7 +178,7 @@ class TestBothubBackend(unittest.TestCase):
     @requests_mock.Mocker()
     def test_request_backend_info(self, request_mock):
         query_params = (
-            f"?language={self.language}&repository_version={self.repository_version}"
+            f"?repository_version={self.repository_version}"
         )
         url = f"{BOTHUB_API_REPOSITORY_NLP_URL}/authorization/info/{self.repository_authorization}/{query_params}"
         json = {"intents": ["comprar", "alugar"]}
@@ -186,8 +186,7 @@ class TestBothubBackend(unittest.TestCase):
 
         response = self.bh.request_backend_info(
             repository_authorization=self.repository_authorization,
-            language=self.language,
-            repository_version=self.repository_version,
+            repository_version_id=self.repository_version,
         )
 
         self.assertEqual(response, json)
