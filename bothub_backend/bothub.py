@@ -81,10 +81,13 @@ class BothubBackend(BaseBackend):
 
     @print_execution_time
     def request_backend_info(
-        self, repository_authorization, language=None, repository_version=None
+        self, repository_authorization, repository_version_id=None, repository_version_language_id=None
     ):
         url = f"{self.backend}/v2/repository/nlp/authorization/info/{repository_authorization}/"
-        query_params = {"language": language, "repository_version": repository_version}
+        query_params = {
+            "repository_version": repository_version_id,
+            "repository_version_language": repository_version_language_id
+        }
         headers = {"Authorization": f"Bearer {repository_authorization}"}
         response = requests.get(url, params=query_params, headers=headers).json()
 
