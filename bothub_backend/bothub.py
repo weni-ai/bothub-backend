@@ -221,7 +221,7 @@ class BothubBackend(BaseBackend):
     def send_log_nlp_parse(self, data):
         url = f"{self.backend}/v2/repository/nlp/log/"
         headers = {"Content-Type": "application/json"}
-        response = requests.post(url, data=data, headers=headers).json()
+        response = requests.post(url, json=data, headers=headers).json()
 
         return response
 
