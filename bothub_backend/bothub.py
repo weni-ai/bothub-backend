@@ -100,7 +100,7 @@ class BothubBackend(BaseBackend):
         response = requests.get(url, params=query_params, headers=headers).json()
 
         return response
-      
+
     @print_execution_time
     def request_all_readytotrain_languages(
         self, repository_authorization, repository_version=None
@@ -218,7 +218,7 @@ class BothubBackend(BaseBackend):
     def send_log_nlp_parse(self, data):
         url = f"{self.backend}/v2/repository/nlp/log/"
         headers = {"Content-Type": "application/json"}
-        response = requests.post(url, data=data, headers=headers).json()
+        response = requests.post(url, json=data, headers=headers).json()
 
         return response
 
