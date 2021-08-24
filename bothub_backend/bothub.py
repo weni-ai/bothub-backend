@@ -187,11 +187,9 @@ class BothubBackend(BaseBackend):
         url = f"{self.backend}/v2/repository/nlp/update_interpreters/{update_id}/"
         query_params = {"rasa_version": rasa_version, "no_bot_data": no_bot_data}
         headers = {"Authorization": f"Bearer {repository_authorization}"}
-        response = requests.get(url, params=query_params, headers=headers)
-        print(response.status_code)
-        print(response.__dict__)
+        response = requests.get(url, params=query_params, headers=headers).json()
 
-        return response.json()
+        return response
 
     @print_execution_time
     def send_training_backend_nlu_persistor(
@@ -204,9 +202,11 @@ class BothubBackend(BaseBackend):
             "rasa_version": rasa_version,
         }
         headers = {"Authorization": f"Bearer {repository_authorization}"}
-        response = requests.post(url, data=data, headers=headers).json()
+        response = requests.post(url, data=data, headers=headers)
+        print(response.status_code)
+        print(response.__dict__)
 
-        return response
+        return response.json()
 
     @print_execution_time
     def request_backend_repository_entity_nlu_parse(
