@@ -102,3 +102,7 @@ class BaseBackend(object):
     @abstractmethod
     def send_log_nlp_parse(self, data):
         pass
+
+    @abstractmethod
+    def send_log_qa_nlp_parse(self, data):
+        pass

@@ -378,6 +378,7 @@ class TestBothubBackend(unittest.TestCase):
 
         self.assertEqual(response, json)
 
+
     @requests_mock.Mocker()
     def test_send_log_nlp_parse(self, request_mock):
         url = f"{BOTHUB_API_URL}/v2/repository/nlp/log/"
@@ -415,6 +416,46 @@ class TestBothubBackend(unittest.TestCase):
         response = self.bh.send_log_nlp_parse(data=data)
 
         self.assertEqual(response, json)
+
+
+    @requests_mock.Mocker()
+    def test_send_log_qa_nlp_parse(self, request_mock):
+        url = f"{BOTHUB_API_URL}/v2/repository/nlp/qa/log/"
+        json = {
+            "id": 1,
+            "answer": "yes",
+            "confidence": 0.09584236,
+            "question": "is this a test?",
+            "text": 1,
+            "nlp_log": "test",
+            "user": "test",
+            "from_backend": False,
+        }
+        request_mock.post(url=url, json=json)
+
+        data = {
+            "text": "test",
+            "from_backend": False,
+            "user_agent": "PostmanRuntime/7.26.10",
+            "user": "teste",
+        }
+
+        response = self.bh.send_log_qa_nlp_parse(data=data)
+
+        self.assertEqual(response, json)
+
+        data = {
+            "text": "test",
+            "from_backend": False,
+            "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+            + "Chrome/87.0.4280.88 Safari/537.36",
+            "user": "teste",
+        }
+
+        response = self.bh.send_log_qa_nlp_parse(data=data)
+
+        self.assertEqual(response, json)
+
 
     @requests_mock.Mocker()
     def test_request_backend_get_current_configuration(self, request_mock):
