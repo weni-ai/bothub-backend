@@ -423,21 +423,27 @@ class TestBothubBackend(unittest.TestCase):
         url = f"{BOTHUB_API_URL}/v2/repository/nlp/qa/log/"
         json = {
             "id": 1,
-            "answer": "yes",
-            "confidence": 0.09584236,
-            "question": "is this a test?",
-            "text": 1,
-            "nlp_log": "test",
+            "answer": "teste",
+            "confidence": 0.0505176697224809,
+            "question": "teste",
+            "nlp_log": "teste",
             "user": "test",
-            "from_backend": False,
+            "knowledge_base": 1,
+            "language": "en",
+            "from_backend": True,
         }
         request_mock.post(url=url, json=json)
 
         data = {
-            "text": "test",
+            "answer": "yes",
+            "confidence": 0.09584236,
+            "question": "is this a test?",
+            "knowledge_base": 1,
+            "language": "en",
+            "nlp_log": "test",
+            "user": "test",
             "from_backend": False,
             "user_agent": "PostmanRuntime/7.26.10",
-            "user": "teste",
         }
 
         response = self.bh.send_log_qa_nlp_parse(data=data)
