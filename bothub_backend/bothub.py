@@ -217,6 +217,7 @@ class BothubBackend(BaseBackend):
 
         return response
 
+
     @print_execution_time
     def send_log_nlp_parse(self, data):
         url = f"{self.backend}/v2/repository/nlp/log/"
@@ -224,6 +225,16 @@ class BothubBackend(BaseBackend):
         response = requests.post(url, json=data, headers=headers).json()
 
         return response
+
+
+    @print_execution_time
+    def send_log_qa_nlp_parse(self, data):
+        url = f"{self.backend}/v2/repository/nlp/qa/log/"
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(url, json=data, headers=headers).json()
+
+        return response
+
 
     @print_execution_time
     def request_backend_get_current_configuration(self, repository_authorization):
